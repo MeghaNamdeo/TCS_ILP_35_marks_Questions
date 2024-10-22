@@ -116,3 +116,137 @@ The given OS is not available.
    - The query for the OS type "Windows" finds two laptops with that OS and prints their IDs and ratings.
 
 2. In Input 2, the query for the brand "HPI" (which does not exist) results in "The given brand is not available."
+
+   import java.util.ArrayList;
+import java.util.Scanner;
+
+class Laptop {
+    private int laptopId;
+    private String brand;
+    private String osType;
+    private double price;
+    private double rating;
+
+    // Parameterized constructor
+    public Laptop(int laptopId, String brand, String osType, double price, double rating) {
+        this.laptopId = laptopId;
+        this.brand = brand;
+        this.osType = osType;
+        this.price = price;
+        this.rating = rating;
+    }
+
+    // Getters
+    public int getLaptopId() {
+        return laptopId;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getOsType() {
+        return osType;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    // Setters
+    public void setLaptopId(int laptopId) {
+        this.laptopId = laptopId;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setOsType(String osType) {
+        this.osType = osType;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+}
+
+class MyClass {
+    public int countOfLaptopsByBrand(Laptop[] laptops, String brand) {
+        int count = 0;
+
+        for (int i = 0; i < laptops.length; i++) {
+            if (laptops[i].getBrand().equalsIgnoreCase(brand) && laptops[i].getRating() > 3) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public Laptop[] searchLaptopByOsType(Laptop[] laptops, String osType) {
+        ArrayList<Laptop> matchingLaptops = new ArrayList<>();
+
+        for (int i = 0; i < laptops.length; i++) {
+            if (laptops[i].getOsType().equalsIgnoreCase(osType)) {
+                matchingLaptops.add(laptops[i]);
+            }
+        }
+
+        if (matchingLaptops.isEmpty()) {
+            return null;
+        } else {
+            return matchingLaptops.toArray(new Laptop[0]);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+        Laptop[] laptops = new Laptop[n];
+
+        for (int i = 0; i < n; i++) {
+            int laptopId = scanner.nextInt();
+            String brand = scanner.next();
+            String osType = scanner.next();
+            double price = scanner.nextDouble();
+            double rating = scanner.nextDouble();
+            laptops[i] = new Laptop(laptopId, brand, osType, price, rating);
+        }
+
+        String queryBrand = scanner.next();
+        String queryOsType = scanner.next();
+
+        MyClass solution = new MyClass();
+
+        // Query for count of laptops by brand
+        int count = solution.countOfLaptopsByBrand(laptops, queryBrand);
+        if (count == 0) {
+            System.out.println("The given brand is not available.");
+        } else {
+            System.out.println(count);
+        }
+
+        // Query for laptops by OS type
+        Laptop[] foundLaptops = solution.searchLaptopByOsType(laptops, queryOsType);
+        if (foundLaptops == null) {
+            System.out.println("The given OS is not available.");
+        } else {
+            for (int i = 0; i < foundLaptops.length; i++) {
+                System.out.println(foundLaptops[i].getLaptopId() + " " + foundLaptops[i].getRating());
+            }
+        }
+
+        scanner.close();
+    }
+}
+
