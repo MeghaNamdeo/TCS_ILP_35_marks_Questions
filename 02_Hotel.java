@@ -110,3 +110,132 @@ No such option available
 
 No rooms booked in the given month
 No such option available
+
+   import java.util.Scanner;
+
+class Hotel {
+    private int hotelId;
+    private String hotelName;
+    private String dateOfBooking;
+    private int noOfRoomsBooked;
+    private String wifiFacility;
+
+    // Parameterized constructor
+    public Hotel(int hotelId, String hotelName, String dateOfBooking, int noOfRoomsBooked, String wifiFacility) {
+        this.hotelId = hotelId;
+        this.hotelName = hotelName;
+        this.dateOfBooking = dateOfBooking;
+        this.noOfRoomsBooked = noOfRoomsBooked;
+        this.wifiFacility = wifiFacility;
+    }
+
+    // Getters
+    public int getHotelId() {
+        return hotelId;
+    }
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public String getDateOfBooking() {
+        return dateOfBooking;
+    }
+
+    public int getNoOfRoomsBooked() {
+        return noOfRoomsBooked;
+    }
+
+    public String getWifiFacility() {
+        return wifiFacility;
+    }
+
+    // Setters
+    public void setHotelId(int hotelId) {
+        this.hotelId = hotelId;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public void setDateOfBooking(String dateOfBooking) {
+        this.dateOfBooking = dateOfBooking;
+    }
+
+    public void setNoOfRoomsBooked(int noOfRoomsBooked) {
+        this.noOfRoomsBooked = noOfRoomsBooked;
+    }
+
+    public void setWifiFacility(String wifiFacility) {
+        this.wifiFacility = wifiFacility;
+    }
+}
+
+class MyClass {
+    public int noOfRoomsBookedInGivenMonth(Hotel[] hotels, String month) {
+        int totalRoomsBooked = 0;
+
+        for (int i = 0; i < hotels.length; i++) {
+            String bookingMonth = hotels[i].getDateOfBooking().split("-")[1]; // Extracting month from date
+            if (bookingMonth.equalsIgnoreCase(month)) {
+                totalRoomsBooked += hotels[i].getNoOfRoomsBooked();
+            }
+        }
+
+        return totalRoomsBooked;
+    }
+
+    public Hotel searchHotelByWifiOption(Hotel[] hotels, String wifiOption) {
+        for (int i = 0; i < hotels.length; i++) {
+            if (hotels[i].getWifiFacility().equalsIgnoreCase(wifiOption)) {
+                return hotels[i]; // Return the first hotel matching the wifi option
+            }
+        }
+        return null; // No hotel found
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+        Hotel[] hotels = new Hotel[n];
+
+        for (int i = 0; i < n; i++) {
+            int hotelId = scanner.nextInt();
+            String hotelName = scanner.next();
+            String dateOfBooking = scanner.next();
+            int noOfRoomsBooked = scanner.nextInt();
+            String wifiFacility = scanner.next();
+            hotels[i] = new Hotel(hotelId, hotelName, dateOfBooking, noOfRoomsBooked, wifiFacility);
+        }
+
+        String queryMonth = scanner.next();
+        String queryWifiOption = scanner.next();
+
+        MyClass solution = new MyClass();
+
+        // Query for total rooms booked in the given month
+        int roomsBooked = solution.noOfRoomsBookedInGivenMonth(hotels, queryMonth);
+        if (roomsBooked == 0) {
+            System.out.println("No rooms booked in the given month.");
+        } else {
+            System.out.println(roomsBooked);
+        }
+
+        // Query for hotel by Wi-Fi option
+        Hotel foundHotel = solution.searchHotelByWifiOption(hotels, queryWifiOption);
+        if (foundHotel == null) {
+            System.out.println("No such option available.");
+        } else {
+            System.out.println(foundHotel.getHotelId());
+            System.out.println(foundHotel.getHotelName());
+            System.out.println(foundHotel.getDateOfBooking());
+            System.out.println(foundHotel.getNoOfRoomsBooked());
+            System.out.println(foundHotel.getWifiFacility());
+        }
+
+        scanner.close();
+    }
+}
+
