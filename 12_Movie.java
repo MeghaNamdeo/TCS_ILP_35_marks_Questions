@@ -42,3 +42,92 @@ Output
 -------------------
 High Budget Movie
 High Budget Movie
+
+import java.util.*;
+
+class MyClass {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        Movie[] arr = new Movie[4];
+
+        for (int i = 0; i < arr.length; i++) {
+            String movieName = sc.nextLine();
+            String company = sc.nextLine();
+            String genre = sc.nextLine();
+            int budget = sc.nextInt();
+            sc.nextLine(); // Consume the newline character
+
+            arr[i] = new Movie(movieName, company, genre, budget);
+        }
+
+        String searchGenre = sc.nextLine();
+        Movie[] ans = getMovieByGenre(arr, searchGenre);
+
+        for (int i = 0; i < ans.length; i++) {
+            if (ans[i].getBudget() > 80000000) {
+                System.out.println("High Budget Movie");
+            } else {
+                System.out.println("Low Budget Movie");
+            }
+        }
+
+        sc.close();
+    }
+
+    public static Movie[] getMovieByGenre(Movie[] arr, String searchGenre) {
+        List<Movie> arr2 = new ArrayList<>();
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].getGenre().equalsIgnoreCase(searchGenre)) {
+                arr2.add(arr[i]);
+            }
+        }
+        return arr2.toArray(new Movie[0]);
+    }
+}
+
+class Movie {
+    private String movieName;
+    private String company;
+    private String genre;
+    private int budget;
+
+    public Movie(String movieName, String company, String genre, int budget) {
+        this.movieName = movieName;
+        this.company = company;
+        this.genre = genre;
+        this.budget = budget;
+    }
+
+    public String getMovieName() {
+        return movieName;
+    }
+
+    public void setMovieName(String movieName) {
+        this.movieName = movieName;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public int getBudget() {
+        return budget;
+    }
+
+    public void setBudget(int budget) {
+        this.budget = budget;
+    }
+}
+
